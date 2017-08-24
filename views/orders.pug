@@ -1,0 +1,12 @@
+if orders.length
+  h3 Your Orders 
+  ul.list-group
+    each order in orders
+      li.list-group-item
+        = `Order: ${order.id} ${order.address}`
+        ul.list-group
+          each lineItem in order.lineItems
+            li.list-group-item
+              = lineItem.product.name
+              span.label.label-default.pull-right
+                =lineItem.quantity

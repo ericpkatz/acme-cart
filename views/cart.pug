@@ -1,0 +1,20 @@
+if cart.lineItems.length
+  h3 Your Cart
+  if(error)
+    .alert.alert-danger= error.message
+  .well
+    ul.list-group
+      each lineItem in cart.lineItems
+        li.list-group-item
+          =lineItem.product.name
+          span.label.label-default.pull-right
+            =lineItem.quantity
+          form(action=`/orders/${cart.id}/lineItems/${lineItem.id}?_method=DELETE` method='POST')
+            button.btn.btn-warning Remove From Cart
+    form(action=`/orders/${cart.id}?_method=PUT` method='POST')
+      input(type='hidden' name='isCart' value='false')
+      hr
+      .form-group
+        label Address
+        input.form-control(name='address')
+      button.btn.btn-primary Place Order

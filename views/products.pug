@@ -1,0 +1,9 @@
+h3 Products
+ul.list-group
+  each product in products
+    li.list-group-item
+      form(action=`/orders/${cart.id}/lineItems` method='POST')
+        = product.name
+        button.btn.btn-primary.pull-right
+          | Add to Cart
+        input(type='hidden' value=product.id name='productId')
