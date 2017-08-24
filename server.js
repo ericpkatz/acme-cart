@@ -32,37 +32,8 @@ app.get('/', (req, res, next)=> {
   res.render('index');
 });
 
-app.put('/orders/:id', (req, res, next)=> {
-  Order.findById(req.params.id)
-    .then( order => {
-      Object.assign(order, req.body);
-      return order.save();
-    })
-    .then( () => res.redirect('/'))
-    .catch(ex => {
-      console.log(ex);
-      if(ex.message === 'address required'){
-        return res.render('index', { error: ex });
-      }
-      next(ex);
-    });
-});
+app.use('/orders', require('./routes/orders'));
 
-app.post('/orders/:id/lineItems', (req, res, next)=> {
-  Order.addProductToCart(req.body.productId*1)
-    .then( ()=> res.redirect('/'))
-    .catch(next);
-});
-
-app.delete('/orders/:orderId/lineItems/:id', (req, res, next)=> {
-    LineItem.destroy({
-      where: {
-        id: req.params.id
-      }
-    })
-    .then( ()=> res.redirect('/'))
-    .catch(next);
-});
 
 const port = process.env.PORT || 3000;
 

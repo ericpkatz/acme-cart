@@ -26,6 +26,23 @@ const Order = conn.define('order', {
   }
 });
 
+Order.updateFromRequestBody = function(id, body){
+  return Order.findById(id)
+    .then( order => {
+      Object.assign(order, body);
+      return order.save();
+    });
+};
+
+Order.destroyLineItem = function(orderId, lineItemId){
+  return conn.models.lineItem.destroy({
+    where: {
+      id: lineItemId,
+      orderId
+    }
+  });
+};
+
 Order.getOrders = function(){
   return Order.findAll({
     order: [['id', 'DESC']],
